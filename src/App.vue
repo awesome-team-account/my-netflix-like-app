@@ -1,21 +1,25 @@
 <script setup lang="ts">
-  // This starter template is using Vue 3 <script setup> SFCs
-  // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
-  import HelloWorld from '@/components/HelloWorld.vue'
+  import MyContainer from '@/components/MyContainer.vue'
+  import MyButton from '@/components/MyButton.vue'
+  import MyModal from '@/components/MyModal.vue'
+
+  import { ref } from 'vue'
+
+  let show = ref(false)
 </script>
 
 <template>
-  <img alt="Vue logo" src="@/assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+  <MyContainer class="text-center">
+    <h1 class="py-4">Hello!</h1>
+    <p class="my-4">
+      <router-link to="/">Go to Home</router-link> /
+      <router-link to="/about">Go to About</router-link>
+    </p>
+    <MyButton @click="show = true">Show Modal</MyButton>
+    <router-view />
+  </MyContainer>
+  <MyModal :show="show" @close="show = !show">
+    <template #header>Modal with glassmorphism</template>
+    Look!
+  </MyModal>
 </template>
-
-<style>
-  #app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    margin-top: 60px;
-  }
-</style>
