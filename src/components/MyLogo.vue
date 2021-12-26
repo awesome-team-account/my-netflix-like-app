@@ -5,11 +5,12 @@
 </script>
 
 <template>
-  <div
+  <router-link
     class="logo text-2xl md:text-3xl whitespace-nowrap text-red-600 uppercase mr-1 md:mr-6"
+    to="/"
   >
     My Netflix-Like App
-  </div>
+  </router-link>
 </template>
 
 <style scoped>

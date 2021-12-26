@@ -35,7 +35,7 @@
 </script>
 
 <template>
-  <nav class="text-xs md:text-sm ml-4">
+  <nav class="text-xs md:text-sm ml-4" aria-label="main">
     <ul class="flex space-x-2 md:space-x-4 whitespace-nowrap">
       <li v-for="navLink in nav" :key="`${navLink.name}-${navLink.to}`">
         <router-link :to="navLink.to">

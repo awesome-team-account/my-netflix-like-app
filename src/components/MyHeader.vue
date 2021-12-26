@@ -2,10 +2,12 @@
   import { ref, onMounted, onBeforeUnmount } from 'vue'
   import MyLogo from '@/components/MyLogo.vue'
   import MyNavigation from '@/components/MyNavigation.vue'
+  import { SearchIcon } from '@heroicons/vue/outline'
+  import { BellIcon, EmojiHappyIcon } from '@heroicons/vue/solid'
 
   export default {
     name: 'MyHeader',
-    components: { MyNavigation, MyLogo },
+    components: { MyNavigation, MyLogo, SearchIcon, BellIcon, EmojiHappyIcon },
     setup() {
       const headerWrapper = ref<Element>()
       let isDarkened = ref(false)
@@ -40,6 +42,11 @@
     >
       <MyLogo />
       <MyNavigation />
+      <div class="flex space-x-5 ml-auto">
+        <SearchIcon class="w-7 h-7" />
+        <BellIcon class="w-7 h-7" />
+        <EmojiHappyIcon class="w-7 h-7" />
+      </div>
     </header>
   </div>
 </template>
