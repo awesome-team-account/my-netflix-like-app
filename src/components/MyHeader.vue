@@ -43,9 +43,9 @@
       <MyLogo />
       <MyNavigation />
       <div class="flex space-x-5 ml-auto">
-        <SearchIcon class="w-7 h-7" />
-        <BellIcon class="w-7 h-7" />
-        <EmojiHappyIcon class="w-7 h-7" />
+        <SearchIcon class="w-4 h-4 md:w-7 md:h-7" />
+        <BellIcon class="w-4 h-4 md:w-7 md:h-7" />
+        <EmojiHappyIcon class="w-4 h-4 md:w-7 md:h-7" />
       </div>
     </header>
   </div>
