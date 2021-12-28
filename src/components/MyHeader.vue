@@ -37,7 +37,7 @@
     <header
       class="z-40 fixed top-0 w-full h-10 md:h-16 px-4% 2xl:px-16 flex items-center transition-all duration-500 bg-gradient-to-b from-neutral-900/60 backdrop-filter backdrop-blur-md"
       :class="{
-        'bg-neutral-900/30': isDarkened,
+        'bg-neutral-900/70': isDarkened,
       }"
     >
       <MyLogo />
