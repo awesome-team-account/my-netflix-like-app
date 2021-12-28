@@ -1,7 +1,8 @@
 <script>
   import MyButton from '@/components/MyButton.vue'
+  import { defineComponent } from 'vue'
 
-  export default {
+  export default defineComponent({
     name: 'MyModal',
     components: { MyButton },
     props: {
@@ -11,7 +12,7 @@
       },
     },
     emits: ['close'],
-  }
+  })
 </script>
 
 <template>

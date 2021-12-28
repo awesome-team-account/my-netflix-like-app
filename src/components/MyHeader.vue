@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { ref, onMounted, onBeforeUnmount } from 'vue'
+  import { ref, onMounted, onBeforeUnmount, defineComponent } from 'vue'
   import MyLogo from '@/components/MyLogo.vue'
   import MyNavigation from '@/components/MyNavigation.vue'
   import { SearchIcon } from '@heroicons/vue/outline'
   import { BellIcon, EmojiHappyIcon } from '@heroicons/vue/solid'
 
-  export default {
+  export default defineComponent({
     name: 'MyHeader',
     components: { MyNavigation, MyLogo, SearchIcon, BellIcon, EmojiHappyIcon },
     setup() {
@@ -29,15 +29,15 @@
         isDarkened,
       }
     },
-  }
+  })
 </script>
 
 <template>
   <div ref="headerWrapper" class="h-10 md:h-16">
     <header
-      class="z-40 fixed top-0 w-full h-10 md:h-16 px-4% 2xl:px-16 flex items-center transition-all duration-500 bg-gradient-to-b from-neutral-900/60 backdrop-filter backdrop-blur-md"
+      class="z-40 fixed top-0 w-full h-10 md:h-16 px-4% 2xl:px-16 flex items-center transition-all duration-500 bg-gradient-to-b from-neutral-900/80 backdrop-filter backdrop-blur-md"
       :class="{
-        'bg-neutral-900/70': isDarkened,
+        'bg-neutral-900/60': isDarkened,
       }"
     >
       <MyLogo />
