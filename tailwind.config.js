@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       spacing: {
         '4%': '4%',
+        '40%': '40%',
       },
       fontFamily: {
         sans: [
@@ -14,15 +15,6 @@ module.exports = {
           '-apple-system',
           'sans-serif',
         ],
-      },
-      backgroundSize: {
-        'size-200': '200% 200%',
-        'size-300': '300% 300%',
-      },
-      backgroundPosition: {
-        'pos-0': '0% 0%',
-        'pos-100': '100% 100%',
-        'pos-200': '200% 200%',
       },
     },
   },
