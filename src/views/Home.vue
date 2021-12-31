@@ -1,5 +1,5 @@
 <script lang="ts">
-  import MyBillboard from '@/components/MyBillboard.vue'
+  import MyBillboard from '@/components/TheBillboard/MyBillboard.vue'
   import { defineComponent } from 'vue'
 
   export default defineComponent({

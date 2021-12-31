@@ -1,7 +1,7 @@
 <script lang="ts">
   import { ref, onMounted, onBeforeUnmount, defineComponent } from 'vue'
-  import MyLogo from '@/components/MyLogo.vue'
-  import MyNavigation from '@/components/MyNavigation.vue'
+  import MyLogo from '@/components/TheHeader/MyLogo.vue'
+  import MyNavigation from '@/components/TheHeader/MyNavigation.vue'
   import { SearchIcon } from '@heroicons/vue/outline'
   import { BellIcon, EmojiHappyIcon } from '@heroicons/vue/solid'
 
