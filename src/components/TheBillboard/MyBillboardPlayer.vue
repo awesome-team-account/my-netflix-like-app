@@ -1,110 +1,127 @@
-<script lang="ts">
+<script setup lang="ts">
   import {
     computed,
-    defineComponent,
     onBeforeUnmount,
     onMounted,
     reactive,
     ref,
     watchEffect,
+    Ref,
+    ComputedRef,
+    PropType,
   } from 'vue'
+  import VideoState from '@/types/VideoState'
+  import MediaPlayer from '@/types/MediaPlayer'
 
-  export default defineComponent({
-    name: 'MyBillboardPlayer',
-    setup() {
-      const videoUrl = new URL(
-        '../../assets/video/don-t-look-up.mp4',
-        import.meta.url
-      ).href
-      const videoEl = ref<HTMLMediaElement>()
-      const video = reactive({
-        url: videoUrl,
-        el: videoEl,
-        isVisible: true,
-        wasLoaded: false,
-        wasEnded: false,
-        wasFailed: false,
-      })
-
-      const wrapperObserver = new IntersectionObserver(
-        (entries: Array<IntersectionObserverEntry>) => {
-          video.isVisible = entries[0]?.isIntersecting
-        },
-        {
-          root: null,
-          threshold: 0.4,
-        }
-      )
-      const wrapperEl = ref<Element>()
-      let wrapperVisibility = computed(
-        () => video.wasLoaded && !video.wasEnded && !video.wasFailed
-      )
-
-      const mediaHandler = (media: HTMLMediaElement) => {
-        media.volume = 0.25
-
-        media.oncanplaythrough = () => (video.wasLoaded = true)
-        media.onplay = () => {
-          if (video.wasEnded) video.wasEnded = false
-        }
-        media.onended = () => (video.wasEnded = true)
-
-        watchEffect(async () => {
-          if (
-            media.ended ||
-            !video.wasLoaded ||
-            !video.isVisible ||
-            !tabIsActive.value
-          ) {
-            if (!media.paused) media.pause()
-
-            return
-          }
-          /* This code below only exists because of Chrome's autoplay policy */
-          try {
-            await media.play()
-            video.wasFailed = false
-          } catch (e) {
-            video.wasFailed = true
-          }
-        })
-      }
-
-      let tabIsActive = ref(!document.hidden)
-      const switchTabIsActive = () => (tabIsActive.value = !document.hidden)
-
-      onMounted(() => {
-        document.addEventListener('visibilitychange', switchTabIsActive)
-        if (wrapperEl.value) wrapperObserver.observe(wrapperEl.value)
-
-        if (videoEl.value) mediaHandler(videoEl.value)
-      })
-
-      onBeforeUnmount(() => {
-        document.removeEventListener('visibilitychange', switchTabIsActive)
-        wrapperObserver.disconnect()
-      })
-
-      return {
-        videoUrl,
-        videoEl,
-        wrapperEl,
-        wrapperVisibility,
-      }
+  const props = defineProps({
+    fix: {
+      type: Boolean as PropType<boolean>,
+      default: false,
     },
   })
+
+  const videoEl: Ref<HTMLMediaElement | undefined> = ref()
+  const videoUrl: string = new URL(
+    '../../assets/video/don-t-look-up.mp4',
+    import.meta.url
+  ).href
+  const video: VideoState = reactive({
+    onTheScreen: true,
+    loaded: false,
+    failed: false,
+    playing: false,
+    muted: false,
+    ended: false,
+  })
+
+  const visible: ComputedRef<boolean> = computed(
+    () => video.loaded && !videoEl.value?.ended && !video.failed
+  )
+
+  const wrapperObserver = new IntersectionObserver(
+    (entries: Array<IntersectionObserverEntry>) => {
+      video.onTheScreen = entries[0]?.isIntersecting
+    },
+    {
+      root: null,
+      threshold: 0.4,
+    }
+  )
+  const wrapperEl: Ref<Element | undefined> = ref()
+
+  let tabIsActive: Ref<boolean> = ref(!document.hidden)
+  const switchTabIsActive = (): boolean =>
+    (tabIsActive.value = !document.hidden)
+
+  onMounted(() => {
+    document.addEventListener('visibilitychange', switchTabIsActive)
+    if (wrapperEl.value) wrapperObserver.observe(wrapperEl.value)
+    if (videoEl.value) mediaHandler(videoEl.value)
+  })
+  onBeforeUnmount(() => {
+    document.removeEventListener('visibilitychange', switchTabIsActive)
+    wrapperObserver.disconnect()
+  })
+
+  defineExpose({
+    muted: computed({
+      get: (): boolean => video.muted,
+      set: (val: boolean) => {
+        if (videoEl.value) videoEl.value.muted = video.muted = val
+      },
+    }),
+    ended: computed((): boolean => video.ended),
+    play: () => videoEl.value?.play(),
+    pause: () => videoEl.value?.pause(),
+  } as MediaPlayer)
+
+  const mediaHandler = (media: HTMLMediaElement): void => {
+    media.volume = 0.25
+
+    media.oncanplaythrough = () => (video.loaded = true)
+    media.onplaying = () => {
+      video.playing = true
+      video.ended = false
+    }
+    media.onended = () => {
+      video.ended = true
+      video.playing = false
+    }
+    media.onpause = () => (video.playing = false)
+
+    watchEffect(async () => {
+      if (
+        media.ended ||
+        !video.loaded ||
+        !video.onTheScreen ||
+        !tabIsActive.value
+      ) {
+        if (!media.paused) media.pause()
+
+        return
+      }
+      /* This code below only exists because of Chrome's autoplay policy */
+      try {
+        await media.play()
+        video.failed = false
+      } catch (e) {
+        video.failed = true
+      }
+    })
+  }
 </script>
 
 <template>
   <div
     ref="wrapperEl"
     class="absolute inset-0 w-full z-5 duration-500 aspect-video overflow-hidden transition-opacity"
-    :class="wrapperVisibility ? 'opacity-100' : 'opacity-0'"
+    :class="visible ? 'opacity-100' : 'opacity-0'"
   >
     <video
       ref="videoEl"
       :src="videoUrl"
       class="absolute inset-0 w-full z-5 fix"
+      :class="{ fix: props.fix }"
     />
   </div>
 </template>

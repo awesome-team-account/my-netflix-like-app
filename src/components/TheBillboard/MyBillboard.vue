@@ -1,26 +1,17 @@
-<script lang="ts">
-  import { defineComponent } from 'vue'
+<script setup lang="ts">
   import MyBillboardPlayer from '@/components/TheBillboard/MyBillboardPlayer.vue'
+  import MediaPlayer from '@/types/MediaPlayer'
+  import { Ref, ref } from 'vue'
 
-  export default defineComponent({
-    name: 'MyBillboard',
-    components: { MyBillboardPlayer },
-    setup() {
-      const title = "Don't Look Up"
-      const caption =
-        'Two low-level astronomers must go on a giant media tour to warn humankind of an approaching comet that will destroy planet Earth.'
-      const imgUrl = new URL(
-        '../../assets/img/don-t-look-up.jpg',
-        import.meta.url
-      ).href
+  const title = "Don't Look Up"
+  const caption =
+    'Two low-level astronomers must go on a giant media tour to warn humankind of an approaching comet that will destroy planet Earth.'
+  const imgUrl: string = new URL(
+    '../../assets/img/don-t-look-up.jpg',
+    import.meta.url
+  ).href
 
-      return {
-        title,
-        caption,
-        imgUrl,
-      }
-    },
-  })
+  const player: Ref<MediaPlayer | undefined> = ref()
 </script>
 
 <template>
@@ -39,7 +30,7 @@
             alt=""
           />
         </div>
-        <MyBillboardPlayer />
+        <MyBillboardPlayer ref="player" fix />
         <div
           class="left-vignette z-8 absolute inset-0 bg-gradient-to-r from-black/60"
         />
