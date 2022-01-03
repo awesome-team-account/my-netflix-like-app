@@ -9,6 +9,7 @@
     Ref,
     ComputedRef,
     PropType,
+    toRef,
   } from 'vue'
   import VideoState from '@/types/VideoState'
   import MediaPlayer from '@/types/MediaPlayer'
@@ -20,7 +21,7 @@
     },
   })
 
-  const videoEl: Ref<HTMLMediaElement | undefined> = ref()
+  const videoEl: Ref<InstanceType<typeof HTMLMediaElement> | undefined> = ref()
   const videoUrl: string = new URL(
     '../../assets/video/don-t-look-up.mp4',
     import.meta.url
@@ -47,11 +48,12 @@
       threshold: 0.4,
     }
   )
-  const wrapperEl: Ref<Element | undefined> = ref()
+  const wrapperEl: Ref<InstanceType<typeof Element> | undefined> = ref()
 
   let tabIsActive: Ref<boolean> = ref(!document.hidden)
-  const switchTabIsActive = (): boolean =>
-    (tabIsActive.value = !document.hidden)
+  const switchTabIsActive = (): void => {
+    tabIsActive.value = !document.hidden
+  }
 
   onMounted(() => {
     document.addEventListener('visibilitychange', switchTabIsActive)
@@ -70,7 +72,8 @@
         if (videoEl.value) videoEl.value.muted = video.muted = val
       },
     }),
-    ended: computed((): boolean => video.ended),
+    ended: toRef(video, 'ended'),
+    playing: toRef(video, 'playing'),
     play: () => videoEl.value?.play(),
     pause: () => videoEl.value?.pause(),
   } as MediaPlayer)
