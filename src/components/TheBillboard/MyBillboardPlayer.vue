@@ -36,7 +36,7 @@
   })
 
   const visible: ComputedRef<boolean> = computed(
-    () => video.loaded && !videoEl.value?.ended && !video.failed
+    () => video.loaded && !video.ended && (!video.failed || video.playing)
   )
 
   const wrapperObserver = new IntersectionObserver(
@@ -57,11 +57,13 @@
 
   onMounted(() => {
     document.addEventListener('visibilitychange', switchTabIsActive)
+    document.addEventListener('click', tryTyPlay)
     if (wrapperEl.value) wrapperObserver.observe(wrapperEl.value)
     if (videoEl.value) mediaHandler(videoEl.value)
   })
   onBeforeUnmount(() => {
     document.removeEventListener('visibilitychange', switchTabIsActive)
+    document.removeEventListener('click', tryTyPlay)
     wrapperObserver.disconnect()
   })
 
@@ -93,12 +95,7 @@
     media.onpause = () => (video.playing = false)
 
     watchEffect(async () => {
-      if (
-        media.ended ||
-        !video.loaded ||
-        !video.onTheScreen ||
-        !tabIsActive.value
-      ) {
+      if (!video.loaded || !video.onTheScreen || !tabIsActive.value) {
         if (!media.paused) media.pause()
 
         return
@@ -111,6 +108,30 @@
         video.failed = true
       }
     })
+  }
+  const tryTyPlay = async (): Promise<undefined> => {
+    /* This function only exists because of Chrome's autoplay policy */
+    if (video.playing) {
+      document.removeEventListener('click', tryTyPlay)
+
+      return
+    }
+    if (
+      !videoEl.value ||
+      !video.loaded ||
+      !video.onTheScreen ||
+      !tabIsActive.value ||
+      !video.failed
+    )
+      return
+
+    try {
+      await videoEl.value.play()
+      video.failed = false
+      document.removeEventListener('click', tryTyPlay)
+    } catch (e) {
+      video.failed = true
+    }
   }
 </script>
 

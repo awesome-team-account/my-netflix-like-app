@@ -1,7 +1,18 @@
 <script setup lang="ts">
   import MyBillboardPlayer from '@/components/TheBillboard/MyBillboardPlayer.vue'
-  import MediaPlayer from '@/types/MediaPlayer'
+  import MyButton from '@/components/MyButton.vue'
   import { Ref, ref } from 'vue'
+  import MediaPlayer from '@/types/MediaPlayer'
+  import {
+    InformationCircleIcon,
+    VolumeUpIcon,
+    VolumeOffIcon,
+    ReplyIcon,
+    PlayIcon as PlayIconOutline,
+  } from '@heroicons/vue/outline'
+  import { PlayIcon } from '@heroicons/vue/solid'
+  import MyRating from '@/components/TheBillboard/MyRating.vue'
+  import MyIconButton from '@/components/MyIconButton.vue'
 
   const title = "Don't Look Up"
   const caption =
@@ -10,8 +21,19 @@
     '../../assets/img/don-t-look-up.jpg',
     import.meta.url
   ).href
+  const rating = '16+'
 
   const player: Ref<MediaPlayer | undefined> = ref()
+
+  const triggerMute = (): void => {
+    if (player.value) player.value.muted = !player.value.muted
+  }
+  const triggerPlay = (): void => {
+    const media = player.value
+    if (!media) return
+
+    media[media.playing ? 'pause' : 'play']()
+  }
 </script>
 
 <template>
@@ -38,28 +60,84 @@
           class="bottom-vignette z-8 w-full absolute left-0 right-0 top-auto -bottom-px bg-gradient-to-b from-neutral-900/0 to-neutral-900"
         />
       </div>
-      <div class="absolute inset-0 w-full h-full z-10">
+      <div class="absolute inset-0 left-4% z-10">
         <!-- info -->
         <div
-          class="info absolute inset-0 left-4% top-0 flex justify-end flex-col"
+          class="info absolute inset-0 flex justify-end flex-col transition-all"
         >
           <div
-            class="sm:text-2xl md:text-4xl lg:text-6xl xl:text-8xl mb-2 lg:mb-4 xl:mb-6 font-bold"
+            class="sm:text-2xl md:text-4xl lg:text-6xl xl:text-8xl mb-2 md:mb-4 xl:mb-6 font-bold transition-all duration-700 ease-in-out delay-500 origin-bottom-left"
+            :class="{
+              'lg:scale-75': player && player.playing,
+            }"
           >
             {{ title }}
           </div>
           <div
-            class="hidden text-xs sm:block md:text-sm lg:text-xl xl:text-3xl"
+            class="hidden text-xs sm:flex md:text-sm lg:text-xl xl:text-2xl transition-all duration-700 ease-in-out delay-500 items-center origin-bottom-left"
+            :class="{
+              'h-0 scale-0 opacity-0': player && player.playing,
+              'h-20 lg:h-28 xl:h-32': player && !player.playing,
+            }"
           >
-            {{ caption }}
+            <p>{{ caption }}</p>
           </div>
-          <div><!-- links --></div>
+          <div class="mt-1 sm:mt-4 lg:mt-6 flex">
+            <MyButton
+              class="bg-white hover:bg-white/60 pl-2 sm:pl-3 lg:pl-7"
+              v-bind="{ dark: false, glassy: false }"
+            >
+              <PlayIcon
+                class="w-6 h-6 mr-1 sm:w-8 sm:h-8 sm:mr-2 lg:w-10 lg:h-10 lg:mr-3"
+              />
+              <div>Play</div>
+            </MyButton>
+            <MyButton
+              class="bg-white/20 hover:bg-white/10 ml-2 sm:ml-3 lg:ml-4 pl-3 lg:pl-7"
+            >
+              <InformationCircleIcon
+                class="w-6 h-6 mr-1 sm:w-8 sm:h-8 sm:mr-2 lg:w-10 lg:h-10 lg:mr-3"
+              />
+              <div>More Info</div>
+            </MyButton>
+          </div>
         </div>
-      </div>
-      <!-- action buttons -->
-      <div class="absolute z-10 inset-0">
-        <div><!-- replay btn --></div>
-        <div><!-- rating --></div>
+        <!-- action buttons -->
+        <div
+          class="actions absolute inset-0 flex items-end justify-end ml-auto"
+        >
+          <MyIconButton
+            v-if="player && !player.playing"
+            class="bg-white/20 hover:bg-white/10"
+            @click="triggerPlay"
+          >
+            <ReplyIcon
+              v-if="player.ended"
+              class="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10"
+            />
+            <PlayIconOutline
+              v-else-if="!player.playing"
+              class="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10"
+            />
+          </MyIconButton>
+          <MyIconButton
+            v-if="player && player.playing"
+            class="bg-white/20 hover:bg-white/10 ml-1 lg:ml-2"
+            @click="triggerMute"
+          >
+            <VolumeOffIcon
+              v-if="player.muted"
+              class="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10"
+            />
+            <VolumeUpIcon
+              v-else
+              class="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10"
+            />
+          </MyIconButton>
+          <MyRating v-if="rating" class="ml-2 sm:ml-3 lg:ml-4">
+            {{ rating }}
+          </MyRating>
+        </div>
       </div>
     </div>
   </div>
@@ -70,9 +148,10 @@
     height: 56.25vw;
   }
 
-  .info {
-    width: 36%;
-    bottom: 35%;
+  .info,
+  .actions {
+    width: 40%;
+    bottom: 34%;
   }
 
   .left-vignette {
