@@ -74,9 +74,9 @@
             {{ title }}
           </div>
           <div
-            class="hidden text-xs sm:flex md:text-sm lg:text-xl xl:text-2xl transition-all duration-700 ease-in-out delay-500 items-center origin-bottom-left"
+            class="hidden text-xs sm:flex md:text-sm lg:text-xl xl:text-2xl transition-all duration-700 ease-in-out delay-500 items-center origin-bottom"
             :class="{
-              'h-0 scale-0 opacity-0': player && player.playing,
+              'h-0 translate-y-20 opacity-0': player && player.playing,
               'h-20 lg:h-28 xl:h-32': player && !player.playing,
             }"
           >
