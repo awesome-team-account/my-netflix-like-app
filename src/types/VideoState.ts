@@ -1,4 +1,4 @@
-export default interface VideoState {
+export type VideoState = {
   onTheScreen: boolean
   loaded: boolean
   failed: boolean

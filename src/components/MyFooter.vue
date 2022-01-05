@@ -1,72 +1,62 @@
-<script lang="ts">
-  import NavLink from '@/types/NavLink'
+<script setup lang="ts">
+  import type { NavLink } from '@/types'
+
   import { EmojiHappyIcon, PuzzleIcon, KeyIcon } from '@heroicons/vue/outline'
-  import { defineComponent } from 'vue'
 
-  export default defineComponent({
-    name: 'MyFooter',
-    components: { EmojiHappyIcon, PuzzleIcon, KeyIcon },
-    setup() {
-      const nav: Array<NavLink> = [
-        {
-          name: 'Audio and Subtitles',
-          to: '/',
-        },
-        {
-          name: 'Audio Description',
-          to: '/',
-        },
-        {
-          name: 'Help Center',
-          to: '#',
-        },
-        {
-          name: 'Gift Cards',
-          to: '#',
-        },
-        {
-          name: 'Media Center',
-          to: '#',
-        },
-        {
-          name: 'Investor Relations',
-          to: '#',
-        },
-        {
-          name: 'Jobs',
-          to: '#',
-        },
-        {
-          name: 'Terms of Use',
-          to: '#',
-        },
-        {
-          name: 'Privacy',
-          to: '#',
-        },
-        {
-          name: 'Legal Notices',
-          to: '#',
-        },
-        {
-          name: 'Cookie Preferences',
-          to: '#',
-        },
-        {
-          name: 'Corporate Information',
-          to: '#',
-        },
-        {
-          name: 'Contact Us',
-          to: '#',
-        },
-      ]
-
-      return {
-        nav,
-      }
+  const nav: Array<NavLink> = [
+    {
+      name: 'Audio and Subtitles',
+      to: '/',
     },
-  })
+    {
+      name: 'Audio Description',
+      to: '/',
+    },
+    {
+      name: 'Help Center',
+      to: '#',
+    },
+    {
+      name: 'Gift Cards',
+      to: '#',
+    },
+    {
+      name: 'Media Center',
+      to: '#',
+    },
+    {
+      name: 'Investor Relations',
+      to: '#',
+    },
+    {
+      name: 'Jobs',
+      to: '#',
+    },
+    {
+      name: 'Terms of Use',
+      to: '#',
+    },
+    {
+      name: 'Privacy',
+      to: '#',
+    },
+    {
+      name: 'Legal Notices',
+      to: '#',
+    },
+    {
+      name: 'Cookie Preferences',
+      to: '#',
+    },
+    {
+      name: 'Corporate Information',
+      to: '#',
+    },
+    {
+      name: 'Contact Us',
+      to: '#',
+    },
+  ]
 </script>
 
 <template>
@@ -74,13 +64,13 @@
     class="container text-xs mx-auto flex flex-col space-y-4 my-4 text-neutral-400 px-4% 2xl:px-16 max-w-5xl relative"
   >
     <div class="flex space-x-4">
-      <a href="#">
+      <a href="#" aria-label="happy">
         <EmojiHappyIcon class="w-7 h-7" />
       </a>
-      <a href="#">
+      <a href="#" aria-label="interesting">
         <PuzzleIcon class="w-7 h-7" />
       </a>
-      <a href="#">
+      <a href="#" aria-label="key">
         <KeyIcon class="w-7 h-7" />
       </a>
     </div>

@@ -1,4 +1,7 @@
 <script setup lang="ts">
+  import type { VideoState, MediaPlayer } from '@/types'
+  import type { Ref, ComputedRef, PropType } from 'vue'
+
   import {
     computed,
     onBeforeUnmount,
@@ -6,13 +9,8 @@
     reactive,
     ref,
     watchEffect,
-    Ref,
-    ComputedRef,
-    PropType,
     toRef,
   } from 'vue'
-  import VideoState from '@/types/VideoState'
-  import MediaPlayer from '@/types/MediaPlayer'
 
   const props = defineProps({
     fix: {
@@ -26,17 +24,18 @@
     '../../assets/video/don-t-look-up.mp4',
     import.meta.url
   ).href
-  const video: VideoState = reactive({
+  const video = reactive({
     onTheScreen: true,
     loaded: false,
     failed: false,
     playing: false,
     muted: false,
     ended: false,
-  })
+  } as VideoState)
 
   const visible: ComputedRef<boolean> = computed(
-    () => video.loaded && !video.ended && (!video.failed || video.playing)
+    (): boolean =>
+      video.loaded && !video.ended && (!video.failed || video.playing)
   )
 
   const wrapperObserver = new IntersectionObserver(

@@ -1,35 +1,31 @@
-<script lang="ts">
-  import { ref, onMounted, onBeforeUnmount, defineComponent } from 'vue'
+<script setup lang="ts">
+  import type { Ref } from 'vue'
+
+  import { ref, onMounted, onBeforeUnmount } from 'vue'
+
   import MyLogo from '@/components/TheHeader/MyLogo.vue'
   import MyNavigation from '@/components/TheHeader/MyNavigation.vue'
+
   import { SearchIcon } from '@heroicons/vue/outline'
   import { BellIcon, EmojiHappyIcon } from '@heroicons/vue/solid'
 
-  export default defineComponent({
-    name: 'MyHeader',
-    components: { MyNavigation, MyLogo, SearchIcon, BellIcon, EmojiHappyIcon },
-    setup() {
-      const headerWrapper = ref<Element>()
-      let isDarkened = ref(false)
-      const callback = (entries: Array<IntersectionObserverEntry>) => {
-        isDarkened.value = !entries[0]?.isIntersecting
-      }
-      const observer = new IntersectionObserver(callback, {
-        root: null,
-        threshold: 0.7,
-      })
+  const headerWrapper: Ref<Element | undefined> = ref()
+  let isDarkened: Ref<boolean> = ref(false)
 
-      onMounted(() => {
-        if (headerWrapper.value) observer.observe(headerWrapper.value)
-      })
-      onBeforeUnmount(() => observer.disconnect())
-
-      return {
-        headerWrapper,
-        isDarkened,
-      }
+  const observer = new IntersectionObserver(
+    (entries: Array<IntersectionObserverEntry>) => {
+      isDarkened.value = !entries[0]?.isIntersecting
     },
+    {
+      root: null,
+      threshold: 0.7,
+    }
+  )
+
+  onMounted(() => {
+    if (headerWrapper.value) observer.observe(headerWrapper.value)
   })
+  onBeforeUnmount(() => observer.disconnect())
 </script>
 
 <template>

@@ -1,11 +1,3 @@
-<script lang="ts">
-  import { defineComponent } from 'vue'
-
-  export default defineComponent({
-    name: 'MyLogo',
-  })
-</script>
-
 <template>
   <router-link
     class="logo text-2xl md:text-3xl whitespace-nowrap text-red-600 uppercase mr-1 md:mr-6"

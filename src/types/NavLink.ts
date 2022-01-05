@@ -1,4 +1,4 @@
-export default interface NavLink {
+export type NavLink = {
   name: string
   to: string
 }

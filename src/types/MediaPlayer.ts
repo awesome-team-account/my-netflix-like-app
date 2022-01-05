@@ -1,6 +1,6 @@
-import { Ref, WritableComputedRef } from 'vue'
+import type { Ref, WritableComputedRef } from 'vue'
 
-export default interface MediaPlayer {
+export type MediaPlayer = {
   muted: WritableComputedRef<boolean> | boolean
   readonly ended: Ref<boolean>
   readonly playing: Ref<boolean>

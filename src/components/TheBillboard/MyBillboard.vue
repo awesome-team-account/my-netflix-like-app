@@ -1,8 +1,9 @@
 <script setup lang="ts">
-  import MyBillboardPlayer from '@/components/TheBillboard/MyBillboardPlayer.vue'
-  import MyButton from '@/components/MyButton.vue'
-  import { Ref, ref } from 'vue'
-  import MediaPlayer from '@/types/MediaPlayer'
+  import type { MediaPlayer } from '@/types'
+  import type { Ref } from 'vue'
+
+  import { ref } from 'vue'
+
   import {
     InformationCircleIcon,
     VolumeUpIcon,
@@ -11,7 +12,10 @@
     PlayIcon as PlayIconOutline,
   } from '@heroicons/vue/outline'
   import { PlayIcon } from '@heroicons/vue/solid'
+
+  import MyBillboardPlayer from '@/components/TheBillboard/MyBillboardPlayer.vue'
   import MyRating from '@/components/TheBillboard/MyRating.vue'
+  import MyButton from '@/components/MyButton.vue'
   import MyIconButton from '@/components/MyIconButton.vue'
 
   const title = "Don't Look Up"
@@ -43,7 +47,6 @@
     aria-label="featured content"
   >
     <div class="absolute w-full billboard-pane z-0">
-      <!-- img / video -->
       <div class="absolute inset-0 z-2">
         <div class="absolute inset-0 w-full z-5 aspect-video">
           <img
@@ -52,7 +55,7 @@
             alt=""
           />
         </div>
-        <MyBillboardPlayer ref="player" fix />
+        <!--        <MyBillboardPlayer ref="player" fix />-->
         <div
           class="left-vignette z-8 absolute inset-0 bg-gradient-to-r from-black/60"
         />
@@ -61,7 +64,6 @@
         />
       </div>
       <div class="absolute inset-0 left-4% z-10">
-        <!-- info -->
         <div
           class="info absolute inset-0 flex justify-end flex-col transition-all"
         >
@@ -82,10 +84,11 @@
           >
             <p>{{ caption }}</p>
           </div>
-          <div class="mt-1 sm:mt-4 lg:mt-6 flex">
+          <div class="mt-1 sm:mt-4 lg:mt-6 flex z-10">
             <MyButton
               class="bg-white hover:bg-white/60 pl-2 sm:pl-3 lg:pl-7"
               v-bind="{ dark: false, glassy: false }"
+              tabindex="-1"
             >
               <PlayIcon
                 class="w-6 h-6 mr-1 sm:w-8 sm:h-8 sm:mr-2 lg:w-10 lg:h-10 lg:mr-3"
@@ -102,13 +105,13 @@
             </MyButton>
           </div>
         </div>
-        <!-- action buttons -->
         <div
           class="actions absolute inset-0 flex items-end justify-end ml-auto"
         >
           <MyIconButton
             v-if="player && !player.playing"
             class="bg-white/20 hover:bg-white/10"
+            :aria-label="player.ended ? 'replay' : 'play'"
             @click="triggerPlay"
           >
             <ReplyIcon
@@ -123,6 +126,7 @@
           <MyIconButton
             v-if="player && player.playing"
             class="bg-white/20 hover:bg-white/10 ml-1 lg:ml-2"
+            :aria-label="player.muted ? 'turn on audio' : 'turn off audio'"
             @click="triggerMute"
           >
             <VolumeOffIcon
