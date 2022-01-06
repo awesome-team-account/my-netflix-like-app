@@ -33,3 +33,7 @@
 html {
     color-scheme: dark;
 }
+
+.arrow-up {
+    @apply w-0 h-0 border-solid border-x-transparent border-t-transparent;
+}
