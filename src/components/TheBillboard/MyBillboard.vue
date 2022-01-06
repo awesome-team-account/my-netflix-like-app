@@ -42,25 +42,25 @@
 
 <template>
   <div
-    class="relative -mt-10 md:-mt-16 mb-5 pb-40% inset-0 touch-pan-y z-1"
+    class="relative -mt-10 md:-mt-16 mb-5 pb-40% inset-0 touch-pan-y"
     role="region"
     aria-label="featured content"
   >
     <div class="absolute w-full billboard-pane z-0">
-      <div class="absolute inset-0 z-2">
-        <div class="absolute inset-0 w-full z-5 aspect-video">
+      <div class="absolute inset-0">
+        <div class="absolute inset-0 w-full aspect-video">
           <img
-            class="absolute inset-0 w-full z-5 h-full object-cover object-right-top"
+            class="absolute inset-0 w-full h-full object-cover object-right-top"
             :src="imgUrl"
             alt=""
           />
         </div>
         <!--        <MyBillboardPlayer ref="player" fix />-->
         <div
-          class="left-vignette z-8 absolute inset-0 bg-gradient-to-r from-black/60"
+          class="left-vignette absolute inset-0 bg-gradient-to-r from-black/60"
         />
         <div
-          class="bottom-vignette z-8 w-full absolute left-0 right-0 top-auto -bottom-px bg-gradient-to-b from-neutral-900/0 to-neutral-900"
+          class="bottom-vignette w-full absolute left-0 right-0 top-auto -bottom-px bg-gradient-to-b from-neutral-900/0 to-neutral-900"
         />
       </div>
       <div class="absolute inset-0 left-4% z-10">

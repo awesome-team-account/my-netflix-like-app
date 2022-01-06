@@ -47,7 +47,7 @@
       threshold: 0.4,
     }
   )
-  const wrapperEl: Ref<InstanceType<typeof Element> | undefined> = ref()
+  const wrapperEl: Ref<InstanceType<typeof HTMLDivElement> | undefined> = ref()
 
   let tabIsActive: Ref<boolean> = ref(!document.hidden)
   const switchTabIsActive = (): void => {
@@ -137,13 +137,13 @@
 <template>
   <div
     ref="wrapperEl"
-    class="absolute inset-0 w-full z-5 duration-500 aspect-video overflow-hidden transition-opacity"
+    class="absolute inset-0 w-full duration-500 aspect-video overflow-hidden transition-opacity"
     :class="visible ? 'opacity-100' : 'opacity-0'"
   >
     <video
       ref="videoEl"
       :src="videoUrl"
-      class="absolute inset-0 w-full z-5 fix"
+      class="absolute inset-0 w-full fix"
       :class="{ fix: props.fix }"
     />
   </div>
