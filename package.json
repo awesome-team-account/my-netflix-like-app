@@ -1,6 +1,8 @@
 {
   "name": "my-netflix-like-app",
-  "version": "0.0.1",
+  "version": "0.1.0",
+  "license": "GPL-3.0-or-later",
+  "author": "Oleksenko Nikita <heyitskippy@gmail.com>",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
