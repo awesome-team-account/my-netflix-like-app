@@ -5,10 +5,6 @@
 @tailwind utilities;
 
 @layer base {
-    body {
-        @apply dark:bg-neutral-900 dark:text-neutral-200;
-    }
-
     h1 {
         @apply text-5xl font-bold;
     }
@@ -20,10 +16,6 @@
     a, router-link {
         @apply no-underline text-white transition duration-300 ease-in-out hover:opacity-70 cursor-pointer;
     }
-}
-
-html {
-    color-scheme: dark;
 }
 
 .arrow-up {

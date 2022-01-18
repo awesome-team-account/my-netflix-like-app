@@ -22,6 +22,5 @@
     v-for="(title, index) in titles"
     :key="`slider-${index}`"
     :title="title"
-    :class="{ 'mt-10': index === 0 }"
   />
 </template>

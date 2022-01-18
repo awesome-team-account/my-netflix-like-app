@@ -64,9 +64,7 @@
 </script>
 
 <template>
-  <div
-    class="relative mb-2 sm:mb-4 md:mb-6 lg:mb-8 xl:mb-10 2xl:mb-16 overflow-x-hidden"
-  >
+  <div class="relative my-2 sm:my-4 md:my-6 lg:my-8 xl:my-10 2xl:my-16">
     <h2>
       <router-link to="#" class="inline-block mb-2 md:mb-4 mx-4% 2xl:mx-16">
         {{ props.title }}
