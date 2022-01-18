@@ -42,7 +42,7 @@
 
 <template>
   <div
-    class="relative -mt-10 md:-mt-16 mb-5 pb-40% inset-0 touch-pan-y"
+    class="relative -mt-10 md:-mt-16 mb-10 pb-40% inset-0 touch-pan-y"
     role="region"
     aria-label="featured content"
   >

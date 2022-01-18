@@ -1,15 +1,27 @@
 <script setup lang="ts">
   import MyBillboard from '@/components/TheBillboard/MyBillboard.vue'
+  import MySlider from '@/components/MySlider.vue'
 
-  const hideBillboard: boolean = import.meta.env.VITE_HIDE_BILLBOARD
+  const hideBillboard: boolean = import.meta.env.VITE_HIDE_BILLBOARD === 'true'
+
+  const titles: Array<string | undefined> = [
+    'New This Week',
+    undefined,
+    'My List',
+    'Critically Acclaimed Tv Shows',
+    'Hollywood Movies',
+    'Dark Comedies',
+    'Recently Added',
+  ]
 </script>
 
 <template>
   <h1 class="sr-only">My Netflix-Like App Home</h1>
-  <MyBillboard />
-  <div class="z-1 relative">
-    <div v-for="i in 20" :key="i" class="break-all text-center">
-      AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-    </div>
-  </div>
+  <MyBillboard v-if="!hideBillboard" />
+  <MySlider
+    v-for="(title, index) in titles"
+    :key="`slider-${index}`"
+    :title="title"
+    :class="{ 'mt-10': index === 0 }"
+  />
 </template>

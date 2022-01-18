@@ -8,7 +8,8 @@ declare module '*.vue' {
 }
 
 interface ImportMetaEnv {
-  readonly VITE_HIDE_BILLBOARD: boolean
+  /* should actually be a boolean, but Vite doesn't seem to convert env variables */
+  readonly VITE_HIDE_BILLBOARD: string
 }
 
 interface ImportMeta {

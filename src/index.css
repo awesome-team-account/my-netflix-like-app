@@ -10,19 +10,11 @@
     }
 
     h1 {
-        @apply text-4xl font-bold;
+        @apply text-5xl font-bold;
     }
 
     h2 {
-        @apply text-3xl font-bold;
-    }
-
-    h3 {
-        @apply text-2xl font-bold;
-    }
-
-    h4 {
-        @apply text-xl;
+        @apply text-xs sm:text-sm md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold;
     }
 
     a, router-link {
