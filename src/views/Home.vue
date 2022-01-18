@@ -1,5 +1,7 @@
 <script setup lang="ts">
   import MyBillboard from '@/components/TheBillboard/MyBillboard.vue'
+
+  const hideBillboard: boolean = import.meta.env.VITE_HIDE_BILLBOARD
 </script>
 
 <template>

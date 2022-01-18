@@ -2,7 +2,7 @@
   import type { Ref, PropType } from 'vue'
   import type { DropdownMenuPosition } from '@/types'
 
-  import { ref, watchEffect } from 'vue'
+  import { ref, unref, watchEffect } from 'vue'
   import { useDebounceFn } from '@vueuse/core'
 
   const props = defineProps({
@@ -12,13 +12,10 @@
     },
   })
 
-  const menu: Ref<HTMLDivElement | undefined> = ref()
-
-  const trigger: Ref<HTMLElement | undefined> = ref()
+  const trigger: Ref<HTMLElement | null> = ref(null)
+  const menu: Ref<HTMLDivElement | null> = ref(null)
   let visible: Ref<boolean> = ref(false)
-
-  let top: Ref<number> = ref(0)
-  let left: Ref<number> = ref(0)
+  let coords: Ref<Array<number>> = ref([0, 0])
 
   const debouncedTrigger = useDebounceFn((val: boolean) => {
     visible.value = val
@@ -28,32 +25,40 @@
     debouncedTrigger(true)
   }
 
-  const setPosition = (): void => {
-    const triggerRect: DOMRect | undefined =
-      trigger.value?.getBoundingClientRect()
-    const menuRect: DOMRect | undefined = menu.value?.getBoundingClientRect()
+  watchEffect(() => {
+    const menuEl = unref(menu)
+    const triggerEl = unref(trigger)
 
-    if (!triggerRect || !menuRect) return
+    if (!visible.value || !menuEl || !triggerEl) return
 
-    top.value = triggerRect.bottom + 10
-    left.value = triggerRect.left + Math.floor(triggerRect.width / 2)
+    coords.value = calcCoords(
+      menuEl.getBoundingClientRect(),
+      triggerEl.getBoundingClientRect(),
+      props.position
+    )
+  })
 
-    switch (props.position) {
+  function calcCoords(
+    menuRect: DOMRect,
+    triggerRect: DOMRect,
+    position: DropdownMenuPosition
+  ): [number, number] {
+    let left = triggerRect.left + Math.floor(triggerRect.width / 2)
+
+    switch (position) {
       case 'left':
-        left.value -= menuRect.width - 5
+        left -= menuRect.width - 5
         break
       case 'right':
-        left.value -= 15
+        left -= 15
         break
       case 'center':
       default:
-        left.value -= Math.floor(menuRect.width / 2)
+        left -= Math.floor(menuRect.width / 2)
     }
-  }
 
-  watchEffect(() => {
-    if (visible.value) setPosition()
-  })
+    return [triggerRect.bottom + 10, left]
+  }
 </script>
 
 <template>
@@ -78,7 +83,7 @@
       ref="menu"
       role="menu"
       tabindex="0"
-      :style="`top: ${top}px; left: ${left}px;`"
+      :style="`top: ${coords[0]}px; left: ${coords[1]}px;`"
       class="fixed z-40 top-0 p-1 bg-black/60 bg-clipping-padding backdrop-blur-md backdrop-filter border border-white/20 rounded-md text-sm shadow-md"
       @mouseover="() => debouncedTrigger(true)"
       @mouseout="() => debouncedTrigger(false)"

@@ -19,7 +19,7 @@
     },
   })
 
-  const videoEl: Ref<InstanceType<typeof HTMLMediaElement> | undefined> = ref()
+  const videoEl: Ref<InstanceType<typeof HTMLMediaElement> | null> = ref(null)
   const videoUrl: string = new URL(
     '../../assets/video/don-t-look-up.mp4',
     import.meta.url
@@ -47,7 +47,7 @@
       threshold: 0.4,
     }
   )
-  const wrapperEl: Ref<InstanceType<typeof HTMLDivElement> | undefined> = ref()
+  const wrapperEl: Ref<InstanceType<typeof HTMLDivElement> | null> = ref(null)
 
   let tabIsActive: Ref<boolean> = ref(!document.hidden)
   const switchTabIsActive = (): void => {
@@ -56,13 +56,13 @@
 
   onMounted(() => {
     document.addEventListener('visibilitychange', switchTabIsActive)
-    document.addEventListener('click', tryTyPlay)
+    document.addEventListener('click', tryToPlay)
     if (wrapperEl.value) wrapperObserver.observe(wrapperEl.value)
     if (videoEl.value) mediaHandler(videoEl.value)
   })
   onBeforeUnmount(() => {
     document.removeEventListener('visibilitychange', switchTabIsActive)
-    document.removeEventListener('click', tryTyPlay)
+    document.removeEventListener('click', tryToPlay)
     wrapperObserver.disconnect()
   })
 
@@ -108,10 +108,10 @@
       }
     })
   }
-  const tryTyPlay = async (): Promise<undefined> => {
+  const tryToPlay = async (): Promise<undefined> => {
     /* This function only exists because of Chrome's autoplay policy */
     if (video.playing) {
-      document.removeEventListener('click', tryTyPlay)
+      document.removeEventListener('click', tryToPlay)
 
       return
     }
@@ -127,7 +127,7 @@
     try {
       await videoEl.value.play()
       video.failed = false
-      document.removeEventListener('click', tryTyPlay)
+      document.removeEventListener('click', tryToPlay)
     } catch (e) {
       video.failed = true
     }

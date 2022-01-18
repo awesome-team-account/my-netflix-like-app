@@ -55,7 +55,7 @@
             alt=""
           />
         </div>
-        <!--        <MyBillboardPlayer ref="player" fix />-->
+        <MyBillboardPlayer ref="player" fix />
         <div
           class="left-vignette absolute inset-0 bg-gradient-to-r from-black/60"
         />
