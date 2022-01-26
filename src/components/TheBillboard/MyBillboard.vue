@@ -27,7 +27,7 @@
   ).href
   const rating = '16+'
 
-  const player: Ref<MediaPlayer | undefined> = ref()
+  const player: Ref<MediaPlayer | null> = ref(null)
 
   const triggerMute = (): void => {
     if (player.value) player.value.muted = !player.value.muted

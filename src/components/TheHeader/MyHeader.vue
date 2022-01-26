@@ -9,8 +9,8 @@
   import { SearchIcon } from '@heroicons/vue/outline'
   import { BellIcon, EmojiHappyIcon } from '@heroicons/vue/solid'
 
-  const headerWrapper: Ref<InstanceType<typeof HTMLDivElement> | undefined> =
-    ref()
+  const headerWrapper: Ref<InstanceType<typeof HTMLDivElement> | null> =
+    ref(null)
   let isDarkened: Ref<boolean> = ref(false)
 
   const observer = new IntersectionObserver(

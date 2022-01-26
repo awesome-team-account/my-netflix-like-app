@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import MyBillboard from '@/components/TheBillboard/MyBillboard.vue'
-  import MySlider from '@/components/MySlider.vue'
+  import MySlider from '@/components/MySlider/MySlider.vue'
 
   const hideBillboard: boolean = import.meta.env.VITE_HIDE_BILLBOARD === 'true'
 

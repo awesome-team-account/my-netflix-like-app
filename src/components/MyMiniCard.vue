@@ -13,7 +13,7 @@
 
 <template>
   <div
-    class="w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5 xl:w-1/6 aspect-[341/192] inline-block"
+    class="w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5 xl:w-1/6 aspect-[341/192] inline-block first:pl-0 px-[0.2vw]"
   >
     <router-link :to="props.card.url" class="block w-full h-full">
       <img

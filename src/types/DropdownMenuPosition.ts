@@ -1,1 +1,1 @@
-export type DropdownMenuPosition = 'left' | 'center' | 'right' | undefined
+export type DropdownMenuPosition = 'left' | 'center' | 'right'
